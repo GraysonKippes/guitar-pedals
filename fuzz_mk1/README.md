@@ -4,7 +4,7 @@ A fuzz pedal is a guitar pedal that distorts a signal by amplifying it and limit
 The Fuzzy Mk. 1, as my debut on the scene of DIY guitar pedals, is a simple fuzz pedal.
 It offers a basic fuzzing effect and a buffered bypass controlled by a toggle switch.
 The intensity of the fuzzing can be controlled (down to being outright disabled) by a knob.
-[Schematic of Fuzz Pedal Circuit](schematics/fuzz_pedal.svg)
+![Schematic of Fuzz Pedal Circuit](schematics/fuzz_pedal.svg)
 ## Circuit Operation
 ### Core Effect
 The core fuzzing effect is implemented with a single op-amp circuit, which combines inverting amplification with limiting.
@@ -23,7 +23,7 @@ The maximum gain is -11 V/V, and by including R5 in series with the potentiomete
 ## Component Selection
 For my first pedal, I elected to stick with simple through-hole components, including an op-amp for the core functionality of the pedal.
 ### NE5532 Operational Amplifier
-The NE5532 op-amp is a classic op-amp that has been popular with audio enthusiasts for a variety of reasons.
+The NE5532 op-amp is a classic op-amp that has been popular with audio enthusiasts for a few reasons.
 #### Gain-Bandwidth Product
 For one, TI's rendition of the NE5532 boasts a gain-bandwidth product of 12MHz.
 In order for an amplifier to be useful for boosting audio signals, it needs to be able to handle the whole range of human hearing, which is about 20Hz to 20kHz.
@@ -110,4 +110,5 @@ Finally, I want to add proper safety features, such as overcurrent protection an
 Being able to accept both negative-center and positive-center power input would be good.
 ## References
 https://www.allaboutcircuits.com/technical-articles/an-op-amp-limiter-how-to-limit-the-amplitude-of-amplified-signals/
+
 https://youtu.be/dhzswWLUoG0?si=y4rR1ria-jn_BZjD
