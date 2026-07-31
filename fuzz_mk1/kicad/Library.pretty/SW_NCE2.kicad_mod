@@ -1,0 +1,239 @@
+(footprint "SW_NCE2"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(property "Reference" "REF**"
+		(at -3.075 -7.385 0)
+		(layer "F.SilkS")
+		(uuid "d4ed5d18-7004-4ceb-be63-54e18209cd25")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "SW_NCE2"
+		(at -1.805 7.365 0)
+		(layer "F.Fab")
+		(uuid "f8bff3c1-50b0-4874-a4b1-d1a28cb22b6c")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "48602ec9-5b26-4dbd-a265-bfe3505b856d")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "2b3329ea-a361-48d8-b2da-39ee2a66e023")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr through_hole)
+	(fp_line
+		(start -6.25 -6.25)
+		(end -6.25 6.25)
+		(stroke
+			(width 0.127)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "3a25fc29-7c5f-4756-a6d5-753f05d898fe")
+	)
+	(fp_line
+		(start -6.25 6.25)
+		(end 6.25 6.25)
+		(stroke
+			(width 0.127)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "3d60b7c1-7ad0-46b7-b493-a826271a328b")
+	)
+	(fp_line
+		(start 6.25 -6.25)
+		(end -6.25 -6.25)
+		(stroke
+			(width 0.127)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "2a314f9d-a88d-4c63-95d8-da39d8a9f4a6")
+	)
+	(fp_line
+		(start 6.25 6.25)
+		(end 6.25 -6.25)
+		(stroke
+			(width 0.127)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "b4a85f1b-ad85-4bf0-b6cb-e4e9f66416f2")
+	)
+	(fp_circle
+		(center 6.75 3.81)
+		(end 6.85 3.81)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "67a0a3e0-6390-48c8-b583-d2e4a21ca6a0")
+	)
+	(fp_line
+		(start -6.5 -6.5)
+		(end 6.5 -6.5)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "ecf0dc5d-e2bf-43e8-95a3-ee4a40ee0ce2")
+	)
+	(fp_line
+		(start -6.5 6.5)
+		(end -6.5 -6.5)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "5bba4bba-4675-4c9c-a3af-ca837fa864d5")
+	)
+	(fp_line
+		(start 6.5 -6.5)
+		(end 6.5 6.5)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "8cea2d42-dca8-43c0-a411-ca35d8c9286f")
+	)
+	(fp_line
+		(start 6.5 6.5)
+		(end -6.5 6.5)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "cd5167aa-da46-4f71-9ff0-16843601bcc7")
+	)
+	(fp_line
+		(start -6.25 -6.25)
+		(end 6.25 -6.25)
+		(stroke
+			(width 0.127)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "52762796-a7af-4aec-8e6b-986dc28ca1d7")
+	)
+	(fp_line
+		(start -6.25 6.25)
+		(end -6.25 -6.25)
+		(stroke
+			(width 0.127)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "a44f9ebc-deee-45f1-9329-2e490f38d4ee")
+	)
+	(fp_line
+		(start 6.25 -6.25)
+		(end 6.25 6.25)
+		(stroke
+			(width 0.127)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "8d7a7f1e-ecf1-43cb-ab25-3cd5b4ac75d8")
+	)
+	(fp_line
+		(start 6.25 6.25)
+		(end -6.25 6.25)
+		(stroke
+			(width 0.127)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "ec1a1690-70f5-4371-8d38-c0983aa6be7a")
+	)
+	(fp_circle
+		(center 6.75 3.81)
+		(end 6.85 3.81)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "e125a6bb-474e-47df-9c54-33761dce8b63")
+	)
+	(pad "" np_thru_hole circle
+		(at -3.81 1.27)
+		(size 1 1)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(uuid "5daabc63-219d-442c-8358-d5aab072eac1")
+	)
+	(pad "" np_thru_hole circle
+		(at 3.81 -3.81)
+		(size 1 1)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(uuid "298a6566-deba-4378-a2cd-b1fcaf1a358b")
+	)
+	(pad "1" thru_hole rect
+		(at 3.81 3.81)
+		(size 1.83 1.83)
+		(drill 1.22)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(solder_mask_margin 0.102)
+		(uuid "cb40bb40-8f03-4536-8705-e4a186cc2c7f")
+	)
+	(pad "2" thru_hole circle
+		(at -1.27 -1.27)
+		(size 1.83 1.83)
+		(drill 1.22)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(solder_mask_margin 0.102)
+		(uuid "a72db6a5-feb8-4084-a9f7-8d54dd2376f1")
+	)
+	(embedded_fonts no)
+	(model "C:/Users/grays/Desktop/Guitar Pedal Project/Fuzz/NCE2.stp"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)
