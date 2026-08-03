@@ -4,7 +4,7 @@ A fuzz pedal is a guitar pedal that distorts a signal by amplifying it and limit
 The Fuzzy Mk. 1, as my debut on the scene of DIY guitar pedals, is a simple fuzz pedal.
 It offers a basic fuzzing effect and a buffered bypass controlled by a toggle switch.
 The intensity of the fuzzing can be controlled (down to being outright disabled) by a knob.
-![Schematic of Fuzz Pedal Circuit](schematics/fuzz_pedal.svg)
+![Schematic of fuzz pedal circuit](images/schematic.svg)
 ## Circuit Operation
 ### Core Effect
 The core fuzzing effect is implemented with a single op-amp circuit, which combines inverting amplification with limiting.
@@ -19,7 +19,15 @@ But most of all, I consider it poor design practice to deliberately exploit maxi
 
 The inverting amplification is implemented with two fixed resistors (R4, R5) and a potentiometer (RV1).
 The maximum gain is -11 V/V, and by including R5 in series with the potentiometer, the minimum gain is -1 V/V (instead of 0).
-### Output Toggle
+The amplified signal is clipped at 3V and 6V, resulting in a maximum peak-to-peak amplitude of 3V.
+This is one-third of the supply voltage of 9V, allowing for considerable headroom without overly attenuating the signal.
+### Bypass Toggle
+Most guitar pedals include a switch to toggle bypassing the effect, which means that the signal is passed directly to the next pedal in the chain.
+In the Fuzzy Mk. 1, this toggle functionality is implemented with an analog 2:1 multiplexer, an electronic toggle latch, and a momentary pushbutton.
+1. The momentary pushbutton, the only moving component on the board, acts as the user interface. It is only active as long as it is held down.
+2. The electronic toggle latch, implemented with a 555 timer in bistable operation, converts the momentary activation to toggle activation.
+3. The output of the toggle latch controls a low-side switch, implemented with a single NPN transistor, which pulls down the multiplexer's control pin.
+4. The ADG419 2:1 analog multiplexer routes one of the two different signals to the output.
 ## Component Selection
 For my first pedal, I elected to stick with simple through-hole components, including an op-amp for the core functionality of the pedal.
 ### NE5532 Operational Amplifier
@@ -75,7 +83,6 @@ The diodes are 1N4148 diodes.
 Unlike the resistors, I did not use what I had lying around, because what I have are 1N4007 diodes, which are for rectification and not for signal processing.
 Conversely, 1N4148 diodes are better suited for signal processing, with faster switching and a lower forward voltage.
 On the other hand, 1N4148 diodes are similarly cheap, cutting down on costs.
-I could use a Schottky diode for even faster switching and even lower forward voltage, but the prevalence of 1N4148 diodes makes them attractive.
 
 There is a single discrete transistor in the circuit, acting as a low-side switch for the ADG419 control pin.
 When brought into saturation, it brings the control pin of the ADG419 down to ground, switching the output from the buffer to the fuzzer.
@@ -92,23 +99,17 @@ This repository includes two LTspice simulations: one for the fuzzing effect and
 Not being able to afford laboratory equipment, this was the next best thing.
 LTspice even came with ADG419 as part of its standard library of parts, since both LTspice and ADG419 are made by Analog Devices.
 ## Design Challenges
-In general, I had to pay close attention to the quirks of guitar pedal standards.
-The most notable challenge was the fact that guitar pedals use a single supply rail (9VDC) instead of split supplies.
-Therefore, I had to DC bias the input to 4.5V in order to preserve the full signal range.
-Another thing was the fact that the DC power jack in guitar pedals are expected to have a negative-center configuration, which is not typical among most electronic devices.
+There were a few challenges involved with the design of this pedal:
+ - Guitar pedals use a single supply rail (9VDC) instead of split supplies, meaning the input had to be DC biased.
+ - Guitar pedal design standards have unusual quirks, which I had to keep in mind, such as the negative-center configuration of the power jacks.
+ - User-facing components (buttons, knobs, connectors) dominated the layout, which was especially critical when the signal is routed through the component (i.e. through the potentiometer).
+ - I committed to a two-layer board layout with through-hole components and a ground plane, making routing tricky in some places.
 ## Future Revisions
-There are several improvements I can make for future revisions of this project.
-I would like to update some older components, such as replacing the NE5532 with TI's TLV9362 op-amp.
-This goes hand-in-hand with the next item, which is to use surface-mount devices instead of older through-hole devices.
-Doing so would save space and make the board even small (the board is already really small for a guitar pedal), which would cut down on PCB costs.
-Moreover, SMD passives tend to be cheaper, further reducing costs, though they are more difficult to solder by hand.
-On the other hand, the 555 timer is so cheap and easy to supply, I would be hesistant to replace it.
-I would especially like to find a replacement for the ADG419, as it is the most expensive electronic component on the board, clocking in at $6.16.
-Compare that to the NE555, which is $0.56.
-I would like to at least consider buffering the inputs and outputs, in order to absolutely ensure signal integrity when chaining with other guitar pedals.
-Finally, I want to add proper safety features, such as overcurrent protection and voltage suppression.
-Being able to accept both negative-center and positive-center power input would be good.
+There are several improvements I can make for future revisions of this project:
+ - Update some older components, such as replacing the NE5532 with TI's TLV9362 op-amp.
+ - Use surface-mount devices instead of through-hole devices, thereby saving board space and reducing costs.
+ - Replace the ADG419 with a less expensive alternative, as it is the most costly electronic component on the board.
+ - Implement safety features, such as overcurrent protection and transient voltage suppression.
 ## References
-https://www.allaboutcircuits.com/technical-articles/an-op-amp-limiter-how-to-limit-the-amplitude-of-amplified-signals/
-
-https://youtu.be/dhzswWLUoG0?si=y4rR1ria-jn_BZjD
+- https://www.allaboutcircuits.com/technical-articles/an-op-amp-limiter-how-to-limit-the-amplitude-of-amplified-signals/
+- https://youtu.be/dhzswWLUoG0?si=y4rR1ria-jn_BZjD
