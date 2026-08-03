@@ -28,6 +28,12 @@ In the Fuzzy Mk. 1, this toggle functionality is implemented with an analog 2:1 
 2. The electronic toggle latch, implemented with a 555 timer in bistable operation, converts the momentary activation to toggle activation.
 3. The output of the toggle latch controls a low-side switch, implemented with a single NPN transistor, which pulls down the multiplexer's control pin.
 4. The ADG419 2:1 analog multiplexer routes one of the two different signals to the output.
+
+The electronic switching scheme was chosen over a purely mechanical scheme for a variety of reasons:
+- Electronic switches feature much higher durability, as they do not undergo the stress that mechanical switches do.
+- The critical signal path can be routed through a chip that can be placed anywhere on the board, unlike the mechanical switch.
+- The electronic switch is programmable, providing flexibility in how it is activated. This is how I was able to convert momentary activation into toggle, saving costs on the switch.
+- The main upside of mechanical switches--ability to handle larger loads--is not relevant, since this is not a power amplifier.
 ## Component Selection
 For my first pedal, I elected to stick with simple through-hole components, including an op-amp for the core functionality of the pedal.
 ### NE5532 Operational Amplifier
@@ -39,33 +45,27 @@ By dividing the gain-bandwidth product by the upper end of human hearing, you ge
 In the case of the NE5532, you get a maximum useful gain of 600 V/V, or about 55.6dB.
 In comparison, the antique LM741 has a gain-bandwidth product of 1.5MHz, which means it can only boost audio signals up to a gain of 75 V/V, or about 37.5dB.
 #### Slew Rate
-Another important feature of the NE5532 is a slew rate of 9 V/μS, or 5 V/μS for TI's version.
+Another important feature of the NE5532 is a slew rate of 9 V/μS (or 5 V/μS for Texas Instruments' version).
 The slew rate of an op-amp is the rate at which the voltage on its output pin can change.
 In order for an amplifier to be useful for boosting audio signals, it needs to be able to slew fast enough to keep up with the signal.
+
 To find out if the amplifier can do so, take the derivative of a sine (or cosine) wave at 20kHz with the desired peak-to-peak amplitude (actual voltage level, not gain), and find the derivative's maximum.
 We only need to check the highest frequency because if the amplifier can slew fast enough for the highest frequency, it can slew fast enough for lower frequencies.
-For example, if your amplifier must produce a 10V peak-to-peak signal, then the highest frequency can be represented with the equation y(t) = 20sin(20000\*2pi\*t).
-The derivative of y(t) is y'(t) = 20cos(20000\*2pi\*t)\*20000\*2pi, via the Chain Rule.
-We are only concerned with the maximum of the derivative, which of sine and cosine, regardless of the parameter, is 1.
-Therefore, the maximum is simply the constant coefficient, which in this case is 20\*20000\*2pi, or about 2.51\*10^6.
-To adjust the value to V/μS, divide that value by 10^6, which in this case results in about 2.51 V/μS.
-For the fuzz pedal, or any standard guitar pedal, the supply voltage--thus the maximum peak-to-peak amplitude--is 9V.
+For example, imagine an amplifier that must produce a 10V peak-to-peak signal:
+1. Represent the highest frequency with the equation $y(t) = 20sin(20000 \times 2\pi \times t)$.
+2. Differentiate y(t): $y'(t) = 20cos(20000 \times 2\pi \times t) \times 20000 \times 2\pi$, via the Chain Rule.
+3. Find the maximum of the derivative. The maximum of both sine and cosine, regardless of the parameter, is 1; so the maximum of the derivative is the constant coefficient.
+4. Adjust the value to V/μS, by dividing it by 10^6. In this case, we get 2.51 V/μS. This value must be less than or equal to the slew rate of the op-amp.
+
+For the fuzz pedal, or any standard guitar pedal, the single supply voltage--thus the maximum peak-to-peak amplitude--is 9V.
 Therefore, the necessary slew rate is 1.13 V/μS, well under the maximum slew rate of the NE5532.
 In comparison, the slew rate of the LM741 is 0.5 V/μS, which is not enough to amplify the whole human hearing range up to 9V peak-to-peak.
-By the way, I believe that the slew rate is the reason why the cut-off peaks are not perfectly squared off but somewhat rounded, as seen in the LTspice simulation.
+
+By the way, I believe that the slew rate is the reason why the limited peaks are not perfectly squared off but somewhat rounded, as seen in the LTspice simulation.
 ### ADG419 Analog Multiplexer
 There's not much to say about the component itself.
 I only selected it because it was what Digikey had for 2:1 analog multiplexers in a through-hole package.
-What matters is why I used an electronic switch at all, as opposed to just a mechanical switch.
-
-Mechanical switches have a few downsides, and the upsides are not relevant to small-signal applications, such as a guitar pedal.
-Mechanical switches undergo strain and are more prone to physically breaking compared to electronic switches.
-By using an electronic switch, the signal path does not have to routed through the mechanical switches, which has constraints on where it can be placed on the board (the mechanical switch is also the user interface); in other words, signal routing and user interface are separated from each other.
-Finally, the electronic switch provides programmability.
-With just a mechanical switch, you are limited to how the switch is physically designed.
-For example, a momentary switch can only ever be momentary, unless you tape it down.
-But with the electronic switch, you can build a circuit around it to interact with it however you want.
-In this circuit, as seen below in the section on the NE555 timer, I built a toggle latch circuit so that the user can toggle between fuzz and bypass.
+The fact that it is a product of Analog Devices, meaning it was already in LTspice's standard part library, is an added bonus.
 ### NE555 Timer
 The 555 timer, as it is colloquially referred to, is a versatile IC that is most commonly used for analog timing applications.
 In this circuit, the timer runs in bistable operation, which means that it has two stable states: on and off.
@@ -102,8 +102,8 @@ LTspice even came with ADG419 as part of its standard library of parts, since bo
 There were a few challenges involved with the design of this pedal:
  - Guitar pedals use a single supply rail (9VDC) instead of split supplies, meaning the input had to be DC biased.
  - Guitar pedal design standards have unusual quirks, which I had to keep in mind, such as the negative-center configuration of the power jacks.
- - User-facing components (buttons, knobs, connectors) dominated the layout, which was especially critical when the signal is routed through the component (i.e. through the potentiometer).
- - I committed to a two-layer board layout with through-hole components and a ground plane, making routing tricky in some places.
+ - User-facing components (buttons, knobs, connectors) dominated the layout, which was especially critical when the signal is routed through the component (i.e. through the potentiometer). I overcame this challenge by placing these components first and then placing the electronics around them.
+ - I committed to a two-layer board layout with through-hole components and a ground plane, making routing tricky in some places. I overcame this challenge by placing ICs and their bypass capacitors close to each other, leaving room for passives between them, and then laying out the rest of the circuitry around them.
 ## Future Revisions
 There are several improvements I can make for future revisions of this project:
  - Update some older components, such as replacing the NE5532 with TI's TLV9362 op-amp.
@@ -111,5 +111,5 @@ There are several improvements I can make for future revisions of this project:
  - Replace the ADG419 with a less expensive alternative, as it is the most costly electronic component on the board.
  - Implement safety features, such as overcurrent protection and transient voltage suppression.
 ## References
-- https://www.allaboutcircuits.com/technical-articles/an-op-amp-limiter-how-to-limit-the-amplitude-of-amplified-signals/
-- https://youtu.be/dhzswWLUoG0?si=y4rR1ria-jn_BZjD
+- https://www.allaboutcircuits.com/technical-articles/an-op-amp-limiter-how-to-limit-the-amplitude-of-amplified-signals/ For the op-amp limiter design.
+- https://youtu.be/dhzswWLUoG0?si=y4rR1ria-jn_BZjD For the 555 toggle latch design.
