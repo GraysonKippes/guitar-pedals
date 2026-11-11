@@ -47,7 +47,9 @@ $$ \frac{1}{1 + sRC} + \frac{sRC}{1 + sRC} = \frac{1 + sRC}{1 + sRC} = 1 $$
 This result is confirmed with an LTspice simulation of the tone control circuit.
 
 ## Component Selection
-In my opinion, the only components worth discussing in this circuit are the op-amps; no need to discuss the resistors and capacitors.
+
+### Operational Amplifiers
+In my opinion, the only components in this circuit worth discussing in depth are the op-amps; no need to discuss the resistors and capacitors.
 I originally wanted to pick out nice op-amps from the Burr-Brown line, and I spent a lot of time sifting through the parts.
 I settled on an OPA1641 for the buffer input and an OPA1679 for the signal processing.
 However, by the time I got around to ordering the parts, the OPA1679 went out of stock.
@@ -66,6 +68,15 @@ The main benefit I see of quad op-amps is that they seem to all or mostly use th
 I have read before that quad op-amps have all these issues, including increased crosstalk noise and higher power consumption; but to be honest, other than the more restricted routing, I doubt that these supposed issues are real, or if they are real, actually matter.
 Again, the noise from patch cables and ground loop hums dominates whatever noise there is or isn't in the op-amps.
 
+### Indicator LEDs
+I selected a green LED for the power-on indicator and a blue LED for the effect-on indicator.
+The consquence of this was that I needed two different current-limiting resistors to match their power levels.
+For each LED, I calculate the resistance needed using Ohm's Law with the forward voltage and test current in the LED's datasheet:
+
+$$ R_{LED} = \frac{V_{CC} - V_{F}}{I_{F}}$$
+
+The calculated resistance value must be rounded to the nearest standard EIA value.
+
 ## Comparison to Fuzzy Mk. 1
 In all honesty, the first fuzz pedal was completely overengineered with the analog mux and the 555 timer used as a bistable latch.
 Getting rid of those massively simplified the circuit design and freed up room for other circuitry (namely the tone control).
@@ -78,6 +89,11 @@ I still believe that an electronic switch (controlled by a mechanical switch) is
 3. The switch could be controlled however I want, and I am not just limited to the mechanical switch functionality.
 That being said, I would rather implement the electronic switching with discrete transistors than spend $6 on a single mux IC again, especially since switches are needed on both the input and output, doubling the cost.
 
+Besides the core circuit design, I also introduced circuit protection to Fuzzy Mk. 2, which was not at all present in Mk. 1.
+Fuzzy Mk. 2 includes reverse polarity protection and overvoltage protection on the power port, as well as ESD protection on both power port and audio jacks.
+Reverse polarity protection is likely the most important form of protection for guitar pedals, since guitar pedals, for whatever reason, use a center-negative configuration with their power jacks.
+This means that it is especially easy to accidentally reverse the polarity on the power, by plugging in a standard center-positive power plug. 
+
 ## Future Revisions
 There are a few revisions I would like to implement for Fuzzy Mk. 3, should I ever build it.
  - Design the board such that it can fit in a standard metal stompbox, so that I don't have to have a custom 3D printed case.
@@ -86,4 +102,31 @@ There are a few revisions I would like to implement for Fuzzy Mk. 3, should I ev
  - Just use two dual-channel TL072s or NE5532s for the effect path (and a TL071 for the input buffer).
  - Include some stylish graphics on the board for the sake of posterity.
 
- - 
+## Bill of Materials
+A shortened bill of materials is presented below:
+| Reference | Description | MPN | Quantity | Extended Price |
+|-----------|-------------|-----|----------|----------------|
+| C1-2 | CAP ALUM 1UF 20% 50V SMD | 865060640001 | 2 | $0.34 |
+| C3, C7 | CAP CER 0.1UF 50V X7R 0805 | C0805C104K5RACTU | 2 | $0.36 |
+| C4, C6 | CAP CER 2200PF 50V X7R 0805 | C0805C222K5RACTU | 2 | $0.20 |
+| C5 | CAP ALUM 10UF 20% 35V SMD | 865080642006 | 1 | $0.20 |
+| D1-2 | TVS DIODE 5.5VWM 14VC SOT5X3 | TPD1E10B06DYAR | 2 | $1.10 |
+| D3 | TVS DIODE 10VWM 17VC DO214AC | SMAJ10A | 1 | $0.51 |
+| D4 | DIODE SCHOTTKY 50V 1A DO214AC | SS15 | 1 | $0.76 |
+| D5 | LED GREEN DIFFUSED 5MM ROUND T/H | 151051VS04000 | 1 | $0.25 |
+| D6, D7 | DIODE STANDARD 75V 250MA SOD123 | 1N4148W | 2 | $0.28 |
+| D8 | LED BLUE DIFFUSED 5MM ROUND T/H | 151051BS04000 | 1 | $0.25 |
+| J1 | CONN PWR JACK 2X5.5MM KINKED PIN | PJ-202AH | 1 | $0.86 |
+| J2-3 | JACK 1/4" MONO SWITCHED - FULL T | NMJ4HFD2 | 2 | $3.54 |
+| R1-8 | RES 100K OHM 1% 1/8W 0805 | RMCF0805FT100K | 8 | $0.80 |
+| R9, R11 | RES 51K OHM 1% 1/8W 0805 | RMCF0805FT51K0 | 2 | $0.20 |
+| R10 | RES 360 OHM 1% 1/8W 0805 | RMCF0805FT360R | 1 | $0.10 |
+| R12 | RES 300 OHM 1% 1/8W 0805 | RMCF0805FT300R | 1 | $0.10 |
+| R13, R16 | RES 1K OHM 1% 1/8W 0805 | RMCF0805FT1K00 | 2 | $0.22 |
+| R14-15 | RES 220 OHM 1% 1/8W 0805 | RMCF0805FT220R | 2 | $0.20 |
+| RV1-2 | POT 1M OHM 0.08W CARBON LINEAR | PDB12-H4301-105BF | 2 | $3.00 |
+| SW1* | Footswitch | N/A | 1 | N/A |
+| U1 | IC OP AMP 1CH 8-SOIC | OPA1641AIDR | 1 | $2.56 |
+| U2 | IC OP AMP 4CH 14-SOIC | OPA1679IDR | 1 | $1.72 |
+
+*Purchased from a different vendor than DigiKey.
