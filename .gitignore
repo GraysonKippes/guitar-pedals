@@ -1,0 +1,10 @@
+# LTspice simulation files
+*.log
+*.raw
+*.net
+
+# Unwanted KiCAD files
+fp-lib-table
+*.kicad_prl
+*.lck
+.history/
